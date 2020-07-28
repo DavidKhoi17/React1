@@ -46,6 +46,17 @@ class App extends Component {
     })
   }
 
+  handleNoteDelete = (e)=>{
+    var noteIdToDelete = parseInt(e.target.id)
+    var notes = this.state.notes
+
+    var filteredNotes = notes.filter((item)=>{
+      return item.id !== noteIdToDelete
+    })
+
+    this.setState({notes:filteredNotes})
+  }
+
   render(){
     //practicing git commit
     return (
@@ -57,7 +68,7 @@ class App extends Component {
                 return(
                   <div className="note" key={note.id}>
                     <div className="note-body">
-                      <i className="far fa-times-circle note-remove"></i>
+                      <i id={note.id} className="far fa-times-circle note-remove" onClick={this.handleNoteDelete}></i>
                       <div className="note-text">
                         {note.text}
                       </div>
