@@ -6,20 +6,44 @@ class App extends Component {
   constructor(props){
     super(props)
 
-    this.notes = [
-      {
-        id: 1,
-        text: 'Jordan 1'
-      },
-      {
-        id: 2,
-        text: 'Jordan 3'
-      },
-      {
-        id: 3,
-        text: 'Jordan 11'
-      }
-    ]
+    this.state = {
+      notes: [
+        {
+          id: 1,
+          text: 'Jordan 1'
+        },
+        {
+          id: 2,
+          text: 'Jordan 3'
+        },
+        {
+          id: 3,
+          text: 'Jordan 11'
+        }
+      ],
+      color: 'rgb(235, 109, 25)',
+      noteInputValue : ''
+    }
+  }
+
+  handleNoteInputChange = (e)=>{
+    this.setState({noteInputValue:e.target.value})
+    // console.log(e.target)
+  }
+
+  handleAddBtn = (e)=>{
+    console.log(e.target)
+    e.preventDefault()
+    var notes = {
+      id: Date.now(),
+      text: this.state.noteInputValue
+    }
+    var newNotes = [notes, ...this.state.notes]
+
+    this.setState({
+      notes:newNotes,
+      noteInputValue: ''
+    })
   }
 
   render(){
@@ -29,9 +53,9 @@ class App extends Component {
         <div className="container">
           <div className="notes">
             {
-              this.notes.map((note)=>{
+              this.state.notes.map((note)=>{
                 return(
-                  <div className="note">
+                  <div className="note" key={note.id}>
                     <div className="note-body">
                       <i className="far fa-times-circle note-remove"></i>
                       <div className="note-text">
@@ -48,9 +72,9 @@ class App extends Component {
               <form className="note-body">
                   <div className="form-group">
                     <label htmlFor="note-input">New note</label>
-                    <input type="text" className="form-control" id="note-input"></input>
+                    <input type="text" className="form-control" id="note-input" value={this.state.noteInputValue} onChange={this.handleNoteInputChange}/>
                   </div>
-                  <button type="submit" className="btn btn-primary">Add</button>
+                  <button type="submit" className="btn btn-primary" onClick={this.handleAddBtn}>Add</button>
               </form>
             </div>
           </div>
